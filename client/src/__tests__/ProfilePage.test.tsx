@@ -9,6 +9,7 @@ jest.mock('next/config', () => () => ({}));
 jest.mock('api', () => ({
   ProfileApi: jest.fn(),
   CoursesApi: jest.fn(),
+  CoursesTasksApi: jest.fn(),
 }));
 
 const profile = {

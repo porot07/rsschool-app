@@ -40,7 +40,6 @@ import PreScreeningIviewCard from 'components/Profile/PreScreeningIviewCard';
 import { withGoogleMaps } from 'components/withGoogleMaps';
 
 import { CheckboxChangeEvent } from 'antd/lib/checkbox';
-import { checkIsProfileOwner } from 'utils/profile-check';
 import { featureToggles } from 'services/features';
 
 type Props = {
@@ -488,5 +487,9 @@ export class ProfilePage extends React.Component<Props, State> {
     );
   }
 }
+
+const checkIsProfileOwner = (githubId: string, requestedGithubId: string): boolean => {
+  return githubId === requestedGithubId;
+};
 
 export default withGoogleMaps(withRouter(withSession(ProfilePage)));

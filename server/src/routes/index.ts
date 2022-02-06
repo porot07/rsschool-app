@@ -23,8 +23,6 @@ import { feedbackRoute } from './feedback';
 import { certificateRoute } from './certificate';
 import { lectureRoute } from './event';
 import { lecturesRoute } from './events';
-import { jwtRoute } from './jwt';
-import { userRoute } from './user';
 import { consentRoute } from './consent';
 import { repositoryRoute } from './repository';
 import { opportunitiesRoute } from './opportunities';
@@ -75,8 +73,6 @@ export const routesMiddleware: RoutesMiddleware = (logger: ILogger) => {
 
   applyRouter(router, lectureRoute(logger));
   applyRouter(router, lecturesRoute(logger));
-  applyRouter(router, jwtRoute(logger));
-  applyRouter(router, userRoute(logger));
   applyRouter(router, consentRoute(logger));
   applyRouter(router, repositoryRoute(logger));
   applyRouter(router, opportunitiesRoute(logger));
