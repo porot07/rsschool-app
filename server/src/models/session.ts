@@ -4,9 +4,6 @@ export interface IUserSession {
   isHirer: boolean;
   githubId: string;
   roles: StundetMentorRoles;
-  coursesRoles?: CourseRoles;
-  courses?: Record<number, CourseInfo>;
-  isGuest?: boolean;
   courses: Record<number, CourseInfo>;
 }
 
@@ -23,12 +20,6 @@ export const enum NewCourseRole {
   Supervisor = 'supervisor',
   Student = 'student',
   Mentor = 'mentor',
-}
-
-interface CourseInfo {
-  mentorId: number | null;
-  studentId: number | null;
-  roles: CourseRole[];
 }
 
 export type StundetMentorRoles = { [key: string]: 'student' | 'mentor' };
