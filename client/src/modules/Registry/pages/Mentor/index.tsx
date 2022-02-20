@@ -1,17 +1,18 @@
-import { Button, Steps, Col, Form, message, Result, Row, Typography } from 'antd';
 import { HeartTwoTone } from '@ant-design/icons';
+import { Button, Col, Form, message, Result, Row, Steps, Typography } from 'antd';
 import axios from 'axios';
-import { useCallback, useState, useEffect } from 'react';
-import { useAsync, useUpdate } from 'react-use';
-import css from 'styled-jsx/css';
+import { Location } from 'common/models';
 import { RegistrationPageLayout } from 'components/RegistartionPageLayout';
 import { Session } from 'components/withSession';
-import { CoursesService } from 'services/courses';
-import { UserFull, UserService } from 'services/user';
-import type { Course } from 'services/models';
-import { Location } from 'common/models';
+import { GeneralMentor } from 'modules/Registry/components/GeneralMentor';
+import { Mentorship } from 'modules/Registry/components/Mentorship';
 import { DEFAULT_COLUMN_SIZES, DEFAULT_ROW_GUTTER, RSSCHOOL_BOT_LINK } from 'modules/Registry/constants';
-import { GeneralMentor, Mentorship } from 'modules/Registry/components';
+import { useCallback, useEffect, useState } from 'react';
+import { useAsync, useUpdate } from 'react-use';
+import { CoursesService } from 'services/courses';
+import type { Course } from 'services/models';
+import { UserFull, UserService } from 'services/user';
+import css from 'styled-jsx/css';
 
 export type Props = {
   courses?: Course[];
