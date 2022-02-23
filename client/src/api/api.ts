@@ -1084,6 +1084,12 @@ export interface ResumeDto {
      * @type {string}
      * @memberof ResumeDto
      */
+    'uuid': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof ResumeDto
+     */
     'avatarLink': string;
     /**
      * 
@@ -3401,6 +3407,39 @@ export const OpportunitiesApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
+         * @param {string} uuid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPublicResume: async (uuid: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'uuid' is not null or undefined
+            assertParamExists('getPublicResume', 'uuid', uuid)
+            const localVarPath = `/opportunities/public/{uuid}`
+                .replace(`{${"uuid"}}`, encodeURIComponent(String(uuid)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} githubId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3444,6 +3483,16 @@ export const OpportunitiesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} uuid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getPublicResume(uuid: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ResumeDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getPublicResume(uuid, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} githubId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3464,6 +3513,15 @@ export const OpportunitiesApiFactory = function (configuration?: Configuration, 
     return {
         /**
          * 
+         * @param {string} uuid 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getPublicResume(uuid: string, options?: any): AxiosPromise<ResumeDto> {
+            return localVarFp.getPublicResume(uuid, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} githubId 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3481,6 +3539,17 @@ export const OpportunitiesApiFactory = function (configuration?: Configuration, 
  * @extends {BaseAPI}
  */
 export class OpportunitiesApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} uuid 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OpportunitiesApi
+     */
+    public getPublicResume(uuid: string, options?: AxiosRequestConfig) {
+        return OpportunitiesApiFp(this.configuration).getPublicResume(uuid, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {string} githubId 
