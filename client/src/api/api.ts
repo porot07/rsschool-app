@@ -124,6 +124,19 @@ export interface ChannelSettings {
 /**
  * 
  * @export
+ * @interface ConsentDto
+ */
+export interface ConsentDto {
+    /**
+     * 
+     * @type {boolean}
+     * @memberof ConsentDto
+     */
+    'consent': boolean;
+}
+/**
+ * 
+ * @export
  * @interface CourseDto
  */
 export interface CourseDto {
@@ -1237,6 +1250,43 @@ export enum ResumeDtoEnglishLevelEnum {
 /**
  * 
  * @export
+ * @interface SaveCertificateDto
+ */
+export interface SaveCertificateDto {
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveCertificateDto
+     */
+    'publicId': string;
+    /**
+     * 
+     * @type {number}
+     * @memberof SaveCertificateDto
+     */
+    'studentId': number;
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveCertificateDto
+     */
+    's3Bucket': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveCertificateDto
+     */
+    's3Key': string;
+    /**
+     * 
+     * @type {string}
+     * @memberof SaveCertificateDto
+     */
+    'issueDate': string;
+}
+/**
+ * 
+ * @export
  * @interface SendNotificationDto
  */
 export interface SendNotificationDto {
@@ -2225,6 +2275,172 @@ export class AuthApi extends BaseAPI {
      */
     public githubLogout(options?: AxiosRequestConfig) {
         return AuthApiFp(this.configuration).githubLogout(options).then((request) => request(this.axios, this.basePath));
+    }
+}
+
+
+/**
+ * CertificateApi - axios parameter creator
+ * @export
+ */
+export const CertificateApiAxiosParamCreator = function (configuration?: Configuration) {
+    return {
+        /**
+         * 
+         * @param {string} publicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCertificate: async (publicId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'publicId' is not null or undefined
+            assertParamExists('getCertificate', 'publicId', publicId)
+            const localVarPath = `/certificate/{publicId}`
+                .replace(`{${"publicId"}}`, encodeURIComponent(String(publicId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {SaveCertificateDto} saveCertificateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveCertificate: async (saveCertificateDto: SaveCertificateDto, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'saveCertificateDto' is not null or undefined
+            assertParamExists('saveCertificate', 'saveCertificateDto', saveCertificateDto)
+            const localVarPath = `/certificate`;
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            localVarHeaderParameter['Content-Type'] = 'application/json';
+
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+            localVarRequestOptions.data = serializeDataIfNeeded(saveCertificateDto, localVarRequestOptions, configuration)
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+    }
+};
+
+/**
+ * CertificateApi - functional programming interface
+ * @export
+ */
+export const CertificateApiFp = function(configuration?: Configuration) {
+    const localVarAxiosParamCreator = CertificateApiAxiosParamCreator(configuration)
+    return {
+        /**
+         * 
+         * @param {string} publicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getCertificate(publicId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getCertificate(publicId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {SaveCertificateDto} saveCertificateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async saveCertificate(saveCertificateDto: SaveCertificateDto, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<void>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.saveCertificate(saveCertificateDto, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+    }
+};
+
+/**
+ * CertificateApi - factory interface
+ * @export
+ */
+export const CertificateApiFactory = function (configuration?: Configuration, basePath?: string, axios?: AxiosInstance) {
+    const localVarFp = CertificateApiFp(configuration)
+    return {
+        /**
+         * 
+         * @param {string} publicId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getCertificate(publicId: string, options?: any): AxiosPromise<void> {
+            return localVarFp.getCertificate(publicId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {SaveCertificateDto} saveCertificateDto 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        saveCertificate(saveCertificateDto: SaveCertificateDto, options?: any): AxiosPromise<void> {
+            return localVarFp.saveCertificate(saveCertificateDto, options).then((request) => request(axios, basePath));
+        },
+    };
+};
+
+/**
+ * CertificateApi - object-oriented interface
+ * @export
+ * @class CertificateApi
+ * @extends {BaseAPI}
+ */
+export class CertificateApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} publicId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CertificateApi
+     */
+    public getCertificate(publicId: string, options?: AxiosRequestConfig) {
+        return CertificateApiFp(this.configuration).getCertificate(publicId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {SaveCertificateDto} saveCertificateDto 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof CertificateApi
+     */
+    public saveCertificate(saveCertificateDto: SaveCertificateDto, options?: AxiosRequestConfig) {
+        return CertificateApiFp(this.configuration).saveCertificate(saveCertificateDto, options).then((request) => request(this.axios, this.basePath));
     }
 }
 
@@ -3407,6 +3623,105 @@ export const OpportunitiesApiAxiosParamCreator = function (configuration?: Confi
     return {
         /**
          * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createConsent: async (githubId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'githubId' is not null or undefined
+            assertParamExists('createConsent', 'githubId', githubId)
+            const localVarPath = `/opportunities/{githubId}/consent`
+                .replace(`{${"githubId"}}`, encodeURIComponent(String(githubId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteConsent: async (githubId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'githubId' is not null or undefined
+            assertParamExists('deleteConsent', 'githubId', githubId)
+            const localVarPath = `/opportunities/{githubId}/consent`
+                .replace(`{${"githubId"}}`, encodeURIComponent(String(githubId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'DELETE', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getConsent: async (githubId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'githubId' is not null or undefined
+            assertParamExists('getConsent', 'githubId', githubId)
+            const localVarPath = `/opportunities/{githubId}/consent`
+                .replace(`{${"githubId"}}`, encodeURIComponent(String(githubId)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @param {string} uuid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3483,6 +3798,36 @@ export const OpportunitiesApiFp = function(configuration?: Configuration) {
     return {
         /**
          * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async createConsent(githubId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConsentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.createConsent(githubId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async deleteConsent(githubId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConsentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.deleteConsent(githubId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getConsent(githubId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ConsentDto>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getConsent(githubId, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @param {string} uuid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3513,6 +3858,33 @@ export const OpportunitiesApiFactory = function (configuration?: Configuration, 
     return {
         /**
          * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        createConsent(githubId: string, options?: any): AxiosPromise<ConsentDto> {
+            return localVarFp.createConsent(githubId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        deleteConsent(githubId: string, options?: any): AxiosPromise<ConsentDto> {
+            return localVarFp.deleteConsent(githubId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
+         * @param {string} githubId 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getConsent(githubId: string, options?: any): AxiosPromise<ConsentDto> {
+            return localVarFp.getConsent(githubId, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @param {string} uuid 
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -3539,6 +3911,39 @@ export const OpportunitiesApiFactory = function (configuration?: Configuration, 
  * @extends {BaseAPI}
  */
 export class OpportunitiesApi extends BaseAPI {
+    /**
+     * 
+     * @param {string} githubId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OpportunitiesApi
+     */
+    public createConsent(githubId: string, options?: AxiosRequestConfig) {
+        return OpportunitiesApiFp(this.configuration).createConsent(githubId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} githubId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OpportunitiesApi
+     */
+    public deleteConsent(githubId: string, options?: AxiosRequestConfig) {
+        return OpportunitiesApiFp(this.configuration).deleteConsent(githubId, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @param {string} githubId 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof OpportunitiesApi
+     */
+    public getConsent(githubId: string, options?: AxiosRequestConfig) {
+        return OpportunitiesApiFp(this.configuration).getConsent(githubId, options).then((request) => request(this.axios, this.basePath));
+    }
+
     /**
      * 
      * @param {string} uuid 
